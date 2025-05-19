@@ -1,6 +1,6 @@
 import React, {type FC, useEffect} from "react";
-import {useAuth} from "../lib/store/useAuth.ts";
 import {useQueryClient} from "@tanstack/react-query";
+import {useAuth} from "@/store";
 
 type UpdateProviderProps = {
     children: React.ReactNode;

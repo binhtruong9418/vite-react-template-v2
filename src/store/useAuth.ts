@@ -1,5 +1,5 @@
 import {create} from "zustand/react";
-import type {User} from "../types/types.ts";
+import type {User} from "@/types";
 
 interface AuthState {
     user: User | null;
@@ -11,7 +11,7 @@ interface AuthState {
     clearUser: () => void;
 }
 
-export const useAuth = create<AuthState>((set) => ({
+const useAuth = create<AuthState>((set) => ({
     user: null,
     isLoading: false,
 
@@ -33,3 +33,5 @@ export const useAuth = create<AuthState>((set) => ({
 
     clearUser: () => set({user: null, isLoading: false}),
 }))
+
+export default useAuth;

@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom"
+import {Button} from "@/components/ui/button.tsx";
 
 export default function HomePage() {
     return (
@@ -8,14 +9,11 @@ export default function HomePage() {
                 A modern React application with a clean architecture and best practices.
             </p>
             <div className="flex gap-4">
-                <Link to="/products">
-                    <button>Browse Products</button>
-                </Link>
-                <Link to="/login">
-                    <button>
-                        Sign In
-                    </button>
-                </Link>
+                <Button>
+                    <Link to="/login" className="text-white">
+                        Login
+                    </Link>
+                </Button>
             </div>
         </div>
     )

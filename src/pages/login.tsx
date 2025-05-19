@@ -9,8 +9,8 @@ import { BiErrorCircle } from "react-icons/bi"
 import { AiOutlineLoading3Quarters } from "react-icons/ai"
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import {LOCAL_STORAGE_KEY} from "../../lib/constants";
 import {useNavigate} from "react-router-dom";
+import {LOCAL_STORAGE_KEY} from "@/lib/constants.ts";
 
 // Form validation schema
 const loginSchema = z.object({

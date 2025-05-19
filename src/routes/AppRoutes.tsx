@@ -1,12 +1,12 @@
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
-import { publicRoutes } from "./public.routes";
-import DefaultLayout from "../components/layout/DefaultLayout.tsx";
-import {protectedRoutes} from "./protected.route.tsx";
-import {AuthGuard} from "./middleware/AuthGuard.tsx";
-import {NoAuthGuard} from "./middleware/NoAuthGuard.tsx";
-import PublicLayout from "../components/layout/PublicLayout.tsx";
-import NotFoundPage from "../pages/errors/NotFoundPage.tsx";
+import { publicRoutes } from "@/routes/public.routes";
+import {protectedRoutes} from "@/routes/protected.route.tsx";
+import {AuthGuard} from "@/routes/middleware/AuthGuard.tsx";
+import {NoAuthGuard} from "@/routes/middleware/NoAuthGuard.tsx";
+import PublicLayout from "@/components/layout/PublicLayout.tsx";
 import {Suspense} from "react";
+import DefaultLayout from "@/components/layout/DefaultLayout.tsx";
+import NotFoundPage from "@/pages/not-found";
 
 const router = createBrowserRouter([
     {

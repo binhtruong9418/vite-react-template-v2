@@ -1,6 +1,6 @@
 import axios from 'axios';
 import queryString from 'query-string';
-import {LOCAL_STORAGE_KEY} from "../lib/constants";
+import {LOCAL_STORAGE_KEY} from "@/lib/constants.ts";
 
 
 const axiosClient = axios.create({

@@ -1,6 +1,6 @@
-import QueryProvider from "./providers/QueryProvider.tsx";
-import UpdateProvider from "./providers/UpdateProvider.tsx";
-import {AppRoutes} from "./routes/AppRoutes.tsx";
+import QueryProvider from "@/providers/QueryProvider.tsx";
+import UpdateProvider from "@/providers/UpdateProvider.tsx";
+import {AppRoutes} from "@/routes/AppRoutes.tsx";
 
 function App() {
 
