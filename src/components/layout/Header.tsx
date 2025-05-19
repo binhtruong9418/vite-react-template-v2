@@ -1,11 +1,16 @@
 import {useState, useRef, useEffect} from "react"
 import {FaUser, FaSignOutAlt, FaCog, FaBars, FaTimes, FaChevronDown} from "react-icons/fa"
-import {Link} from "react-router-dom"
+import {Link, useLocation, useNavigate} from "react-router-dom"
+import {LOCAL_STORAGE_KEY} from "@/lib/constants.ts";
+import {useAuth} from "@/store";
 
 export default function Header() {
     const [isProfileOpen, setIsProfileOpen] = useState(false)
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
     const profileRef = useRef<HTMLDivElement>(null)
+    const {clearUser} = useAuth();
+    const navigate = useNavigate()
+    const location = useLocation();
 
     // Close profile dropdown when clicking outside
     useEffect(() => {
@@ -24,7 +29,14 @@ export default function Header() {
     const handleLogout = () => {
         // Add your logout logic here
         console.log("Logging out...")
-        // Example: router.push('/login')
+
+        localStorage.removeItem(LOCAL_STORAGE_KEY.JWT_KEY)
+        clearUser();
+
+        // Redirect to login or home page
+        navigate("/login", {
+            state: location
+        })
     }
 
     return (

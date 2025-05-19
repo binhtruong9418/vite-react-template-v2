@@ -9,7 +9,7 @@ import { BiErrorCircle } from "react-icons/bi"
 import { AiOutlineLoading3Quarters } from "react-icons/ai"
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import {LOCAL_STORAGE_KEY} from "@/lib/constants.ts";
 
 // Form validation schema
@@ -25,6 +25,9 @@ export default function LoginPage() {
     const [error, setError] = useState<string | null>(null)
     const [showPassword, setShowPassword] = useState(false)
     const navigate = useNavigate()
+    const location = useLocation()
+
+    console.log("location", location.state)
 
     const {
         register,
@@ -50,7 +53,7 @@ export default function LoginPage() {
             await new Promise((resolve) => setTimeout(resolve, 1000))
             localStorage.setItem(LOCAL_STORAGE_KEY.JWT_KEY, "fake-jwt-token")
 
-            navigate("/")
+            navigate(location.state?.from?.pathname || "/")
         } catch  {
             setError("Invalid email or password. Please try again.")
         } finally {
