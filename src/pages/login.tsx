@@ -10,7 +10,7 @@ import { AiOutlineLoading3Quarters } from "react-icons/ai"
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import {useLocation, useNavigate} from "react-router-dom";
-import {LOCAL_STORAGE_KEY} from "@/lib/constants.ts";
+import {LOCAL_STORAGE_KEY} from "@/lib/constants";
 
 // Form validation schema
 const loginSchema = z.object({

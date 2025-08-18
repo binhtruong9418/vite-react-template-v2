@@ -1,5 +1,5 @@
 import {create} from "zustand/react";
-import type {User} from "@/types";
+import type {User} from "@/lib/types";
 
 interface AuthState {
     user: User | null;

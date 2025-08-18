@@ -1,6 +1,6 @@
 import { Navigate, useLocation } from 'react-router-dom';
 import {type ReactNode, useMemo} from "react";
-import {LOCAL_STORAGE_KEY} from "@/lib/constants.ts";
+import {LOCAL_STORAGE_KEY} from "@/lib/constants";
 
 
 

@@ -1,6 +1,6 @@
 import {type ReactNode, useMemo} from 'react';
 import {Navigate, useLocation} from 'react-router-dom';
-import {LOCAL_STORAGE_KEY} from "@/lib/constants.ts";
+import {LOCAL_STORAGE_KEY} from "@/lib/constants";
 
 interface GuestGuardProps {
     children: ReactNode;

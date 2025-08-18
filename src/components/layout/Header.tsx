@@ -1,8 +1,8 @@
 import {useState, useRef, useEffect} from "react"
 import {FaUser, FaSignOutAlt, FaCog, FaBars, FaTimes, FaChevronDown} from "react-icons/fa"
 import {Link, useLocation, useNavigate} from "react-router-dom"
-import {LOCAL_STORAGE_KEY} from "@/lib/constants.ts";
-import {useAuth} from "@/store";
+import {LOCAL_STORAGE_KEY} from "@/lib/constants";
+import {useAuth} from "@/lib/store";
 
 export default function Header() {
     const [isProfileOpen, setIsProfileOpen] = useState(false)

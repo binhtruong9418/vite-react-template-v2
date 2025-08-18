@@ -1,1 +1,0 @@
-export {default as useAuth} from '@/store/useAuth.ts';
