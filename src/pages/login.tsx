@@ -1,21 +1,23 @@
 "use client"
 
-import { useState } from "react"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
+import {useState} from "react"
+import {useForm} from "react-hook-form"
+import {z} from "zod"
 // React Icons
-import { FaEye, FaEyeSlash, FaGoogle, FaGithub } from "react-icons/fa"
-import { BiErrorCircle } from "react-icons/bi"
-import { AiOutlineLoading3Quarters } from "react-icons/ai"
+import {FaEye, FaEyeSlash, FaGithub} from "react-icons/fa"
+import {BiErrorCircle} from "react-icons/bi"
+import {AiOutlineLoading3Quarters} from "react-icons/ai"
 
-import { zodResolver } from "@hookform/resolvers/zod";
+import {zodResolver} from "@hookform/resolvers/zod";
 import {useLocation, useNavigate} from "react-router-dom";
 import {LOCAL_STORAGE_KEY} from "@/lib/constants";
+import {GoogleLogin} from "@react-oauth/google";
+import authApi from "@/services/auth/api.ts";
 
 // Form validation schema
 const loginSchema = z.object({
-    email: z.string().email({ message: "Please enter a valid email address" }),
-    password: z.string().min(6, { message: "Password must be at least 6 characters" }),
+    email: z.string().email({message: "Please enter a valid email address"}),
+    password: z.string().min(6, {message: "Password must be at least 6 characters"}),
 })
 
 type LoginFormValues = z.infer<typeof loginSchema>
@@ -27,12 +29,10 @@ export default function LoginPage() {
     const navigate = useNavigate()
     const location = useLocation()
 
-    console.log("location", location.state)
-
     const {
         register,
         handleSubmit,
-        formState: { errors },
+        formState: {errors},
     } = useForm<LoginFormValues>({
         resolver: zodResolver(loginSchema),
         defaultValues: {
@@ -54,11 +54,34 @@ export default function LoginPage() {
             localStorage.setItem(LOCAL_STORAGE_KEY.JWT_KEY, "fake-jwt-token")
 
             navigate(location.state?.from?.pathname || "/")
-        } catch  {
+        } catch {
             setError("Invalid email or password. Please try again.")
         } finally {
             setIsLoading(false)
         }
+    }
+
+    const onLoginGoogleSuccess = async (tokenResponse: any) => {
+        const tokenId = tokenResponse.credential
+        setIsLoading(true)
+        setError(null)
+        try {
+            const response = await authApi.googleLogin(tokenId)
+            if (response?.accessToken) {
+                localStorage.setItem(LOCAL_STORAGE_KEY.JWT_KEY, response.accessToken)
+                navigate(location.state?.from?.pathname || "/")
+            } else {
+                setError("Failed to login with Google. Please try again.");
+            }
+        } catch (error: any) {
+            setError(error?.message || "Failed to login with Google. Please try again.");
+        } finally {
+            setIsLoading(false)
+        }
+    }
+
+    const onLoginGoogleError = (error: any) => {
+        setError(error?.error_description || "Failed to login with Google. Please try again.");
     }
 
     return (
@@ -75,7 +98,7 @@ export default function LoginPage() {
                     <div className="rounded-md bg-red-50 p-4">
                         <div className="flex">
                             <div className="flex-shrink-0">
-                                <BiErrorCircle className="h-5 w-5 text-red-400" />
+                                <BiErrorCircle className="h-5 w-5 text-red-400"/>
                             </div>
                             <div className="ml-3">
                                 <p className="text-sm text-red-700">{error}</p>
@@ -133,9 +156,10 @@ export default function LoginPage() {
                                     className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-gray-500"
                                     onClick={() => setShowPassword(!showPassword)}
                                 >
-                                    {showPassword ? <FaEyeSlash className="h-5 w-5" /> : <FaEye className="h-5 w-5" />}
+                                    {showPassword ? <FaEyeSlash className="h-5 w-5"/> : <FaEye className="h-5 w-5"/>}
                                 </button>
-                                {errors.password && <p className="mt-1 text-sm text-red-600">{errors.password.message}</p>}
+                                {errors.password &&
+                                    <p className="mt-1 text-sm text-red-600">{errors.password.message}</p>}
                             </div>
                         </div>
                     </div>
@@ -149,7 +173,7 @@ export default function LoginPage() {
                         >
                             {isLoading ? (
                                 <>
-                                    <AiOutlineLoading3Quarters className="mr-3 h-5 w-5 animate-spin text-white" />
+                                    <AiOutlineLoading3Quarters className="mr-3 h-5 w-5 animate-spin text-white"/>
                                     Signing in...
                                 </>
                             ) : (
@@ -169,20 +193,29 @@ export default function LoginPage() {
                     </div>
                 </div>
 
+
                 {/* Social login */}
-                <div className="mt-6 grid grid-cols-2 gap-3">
+                <div className="mt-6 grid grid-cols-1 gap-3">
+                    <GoogleLogin
+                        onSuccess={async (credentialResponse: any) => {
+                            await onLoginGoogleSuccess(credentialResponse);
+                        }}
+                        onError={() => {
+                            onLoginGoogleError(error);
+                        }}
+                        size="large"
+                        theme="outline"
+                        text="signin_with"
+                        useOneTap={false}
+                        auto_select={false}
+                        width={"1000px"}
+                        shape={"square"}
+                    />
                     <button
                         type="button"
-                        className="flex w-full items-center justify-center rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50"
+                        className="flex w-full items-center justify-center border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50"
                     >
-                        <FaGoogle className="h-5 w-5 mr-2 text-red-500" />
-                        Google
-                    </button>
-                    <button
-                        type="button"
-                        className="flex w-full items-center justify-center rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50"
-                    >
-                        <FaGithub className="h-5 w-5 mr-2" />
+                        <FaGithub className="h-5 w-5 mr-2"/>
                         GitHub
                     </button>
                 </div>
