@@ -84,6 +84,11 @@ export default function LoginPage() {
         setError(error?.error_description || "Failed to login with Google. Please try again.");
     }
 
+    const handleGithubLogin = () => {
+        const clientId = import.meta.env.VITE_GITHUB_CLIENT_ID
+        window.location.href = `https://github.com/login/oauth/authorize?client_id=${clientId}`
+    }
+
     return (
         <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4 py-12 sm:px-6 lg:px-8">
             <div className="w-full max-w-md space-y-8 rounded-lg bg-white p-6 shadow-md">
@@ -213,6 +218,7 @@ export default function LoginPage() {
                     />
                     <button
                         type="button"
+                        onClick={handleGithubLogin}
                         className="flex w-full items-center justify-center border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50"
                     >
                         <FaGithub className="h-5 w-5 mr-2"/>

@@ -7,6 +7,10 @@ const authApi = {
 
     googleLogin: async (tokenId: string): Promise<any> => {
         return await axiosClient.post("/auth/login/google", { tokenId });
+    },
+
+    githubLogin: async (code: string): Promise<any> => {
+        return await axiosClient.post("/auth/login/github", { code });
     }
 }
 
